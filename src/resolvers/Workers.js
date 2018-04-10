@@ -1,7 +1,6 @@
 export default {
   Worker: {
-    // eslint-disable-next-line no-empty-pattern
-    latestTasks(parent, {}, { loaders }) {
+    latestTasks(parent, args, { loaders }) {
       return loaders.task.loadMany(
         parent.recentTasks.map(({ taskId }) => taskId)
       );

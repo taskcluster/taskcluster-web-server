@@ -15,14 +15,14 @@ type WorkerCompact {
 
 # Definition of a worker
 type Worker {
-  # Provisioner ID name.
+  # Provisioner identifier.
   provisionerId: String!
 
   # Worker type name.
   workerType: String!
 
-  # Identifier for group that worker who executes this run is a part of,
-  # this identifier is mainly used for efficient routing.
+  # Identifier for group that worker who executes this run is a part of.
+  # This identifier is mainly used for efficient routing.
   workerGroup: String!
 
   # Identifier for worker evaluating this run within given `workerGroup`.
@@ -45,7 +45,7 @@ type Worker {
   # A list of actions exposed at the worker level.
   actions: [ProvisionerAction]!
 
-  # A list of most recent tasks claimed by the worker
+  # A list of most recent tasks claimed by the worker.
   latestTasks: [Task]!
 }
 
