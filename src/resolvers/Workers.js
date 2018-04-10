@@ -1,4 +1,12 @@
 export default {
+  Worker: {
+    // eslint-disable-next-line no-empty-pattern
+    latestTasks(parent, {}, { loaders }) {
+      return loaders.task.loadMany(
+        parent.recentTasks.map(({ taskId }) => taskId)
+      );
+    },
+  },
   Query: {
     worker(
       parent,
