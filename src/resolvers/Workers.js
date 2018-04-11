@@ -1,4 +1,9 @@
 export default {
+  LatestTask: {
+    async run(parent, args, { loaders }) {
+      return (await loaders.status.load(parent.taskId)).runs[parent.runId];
+    },
+  },
   Worker: {
     latestTasks(parent, args, { loaders }) {
       return loaders.task.loadMany(
