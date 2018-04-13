@@ -1,7 +1,9 @@
 export default {
   LatestTask: {
     async run(parent, args, { loaders }) {
-      return (await loaders.status.load(parent.taskId)).runs[parent.runId];
+      const status = await loaders.status.load(parent.taskId);
+
+      return status.runs[parent.runId];
     },
   },
   Worker: {
