@@ -5,10 +5,10 @@ export default ({ hooks }) => {
   const hookGroups = new DataLoader(queries =>
     Promise.all(
       queries.map(async ({ filter }) => {
-        const { groups: raw } = await hooks.listHookGroups();
-        const hookGroups = filter ? sift(filter, raw) : raw;
+        const { groups } = await hooks.listHookGroups();
+        const raw = groups.map(hookGroupId => ({ hookGroupId }));
 
-        return hookGroups.map(hookGroupId => ({ hookGroupId }));
+        return filter ? sift(filter, raw) : raw;
       })
     )
   );

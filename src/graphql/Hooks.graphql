@@ -71,6 +71,7 @@ type Hook {
 
 type HookGroup {
   hookGroupId: ID!
+
   hooks(hookGroupId: ID = hookGroupId): [Hook]
 }
 
