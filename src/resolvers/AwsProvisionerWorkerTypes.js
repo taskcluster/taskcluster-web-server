@@ -4,6 +4,10 @@ export default {
       return loaders.awsProvisionerWorkerTypeState.load(workerType);
     },
   },
+  AwsProvisionerErrorType: {
+    INSTANCE_REQUEST: 'instance-request',
+    TERMINATION: 'termination',
+  },
   Query: {
     awsProvisionerWorkerType(parent, { workerType }, { loaders }) {
       return loaders.awsProvisionerWorkerType.load(workerType);
@@ -13,6 +17,12 @@ export default {
     },
     awsProvisionerWorkerTypeSummaries(parent, { filter }, { loaders }) {
       return loaders.awsProvisionerWorkerTypeSummaries.load({ filter });
+    },
+    awsProvisionerRecentErrors(parent, { filter }, { loaders }) {
+      return loaders.awsProvisionerRecentErrors.load({ filter });
+    },
+    awsProvisionerHealth(parent, { filter }, { loaders }) {
+      return loaders.awsProvisionerHealth.load({ filter });
     },
   },
   Mutation: {
