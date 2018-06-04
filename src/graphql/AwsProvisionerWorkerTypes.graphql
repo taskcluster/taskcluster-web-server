@@ -232,36 +232,36 @@ type AwsProvisionerTerminationHealth implements Aws {
   # For the purposes of this API, a clean shutdown is one which was initiated by us.
   # This includes API shutdowns or workers ending themselves.
   # It does not mean the actual workload ran successfully, rather that we chose to terminate it.
-  clean_shutdown: Int!
+  cleanShutdown: Int!
 
   # The number of instances which were killed by the spot service.
-  spot_kill: Int!
+  spotKill: Int!
 
   # The number of instances which were terminated due to a lack of capacity.
   # More than likely, this will always be zero because the new spot service is
   # now synchronous, so runInstances calls should fail.
-  insufficient_capacity: Int!
+  insufficientCapacity: Int!
 
   # The number of instances which were terminated due to a lack of capacity.
   # More than likely, this will always be zero because the new spot service is now
   # synchronous, so runInstances calls should fail.
-  volume_limit_exceeded: Int!
+  volumeLimitExceeded: Int!
 
   # The number of instances which were terminated due to not being able to find the AMI.
-  missing_ami: Int!
+  missingAmi: Int!
 
   # The number of instances which failed to start, either because of an
   # error on our side or on the EC2 side.
-  startup_failed: Int!
+  startupFailed: Int!
 
   # The number of terminations which have a code which this code does not recognize.
-  unknown_codes: Int!
+  unknownCodes: Int!
 
   # The number of terminations which we cannot find a code.
   # This means we cannot determine whether this should be classified as a good or bad outcome.
   # The specific reason is that the code which polls for termination reason was not able
   # to run before the EC2 API dropped the instance from its database.
-  no_code: Int!
+  noCode: Int!
 }
 
 type AwsProvisionerRequestHealth implements Aws {
@@ -276,15 +276,15 @@ type AwsProvisionerRequestHealth implements Aws {
   failed: Int!
 
   # The number of calls fail…invalid in this response.
-  configuration_issue: Int!
+  configurationIssue: Int!
 
   # Number of calls which have been throttled in this region.
   # These are errors with the code RequestLimitExceeded.
-  throttled_calls: Int!
+  throttledCalls: Int!
 
   # Number of runInstances calls which have failed because there
   # aren't enough hosts for the resources to be allocated.
-  insufficient_capacity: Int!
+  insufficientCapacity: Int!
 
   # The number of calls which failed due to a limit being exceeded.
   # Due to the large number of error codes the EC2 API might return, this is a best effort categorization.
@@ -292,7 +292,7 @@ type AwsProvisionerRequestHealth implements Aws {
   # but not RequestLimitExceeded on the codes from
   # https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html.
   # It is not categorized by which limit was exceeded in this response.
-  limit_exceeded: Int!
+  limitExceeded: Int!
 }
 
 type AwsProvisionerHealth {
