@@ -41,7 +41,6 @@ export default {
     },
   },
   /* eslint-enable camelcase */
-
   AwsProvisionerWorkerType: {
     state({ workerType }, args, { loaders }) {
       return loaders.awsProvisionerWorkerTypeState.load(workerType);
