@@ -1,0 +1,7 @@
+type GithubRepository {
+  installed: Boolean!
+}
+
+extend type Query {
+  githubRepository(owner: String!, repo: String!): GithubRepository
+}
