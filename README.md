@@ -34,6 +34,12 @@ PULSE_USERNAME="<insert username here>"
 
 # Password for connecting to pulse for subscriptions:
 PULSE_PASSWORD="<insert password here>"
+
+# Hostname for connecting to pulse for subscriptions:
+PULSE_HOSTNAME="pulse.mozilla.org"
+
+# VHost for connecting to pulse for subscriptions:
+PULSE_VHOST="/"
 ```
 
 ## Launching locally
