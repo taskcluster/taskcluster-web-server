@@ -9180,9 +9180,9 @@ tar@^4:
     safe-buffer "^5.1.2"
     yallist "^3.0.2"
 
-taskcluster-client@^11.0.1:
-  version "11.0.1"
-  resolved "https://registry.yarnpkg.com/taskcluster-client/-/taskcluster-client-11.0.1.tgz#0406a401c7848c18fe0580e7c3d8de8a3cb62f1b"
+taskcluster-client@^11.0.3:
+  version "11.0.3"
+  resolved "https://registry.yarnpkg.com/taskcluster-client/-/taskcluster-client-11.0.3.tgz#f71fd2d75dc4912ecc6c69fc56994eae088265aa"
   dependencies:
     amqplib "^0.5.1"
     debug "^3.1.0"

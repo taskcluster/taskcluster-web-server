@@ -95,7 +95,7 @@ and select whether there is another page:
 
 ```graphql
 query Sample {
-  tasks(taskGroupId: "AMfy-mopRaOCQlNW5IhOeQ") {
+  taskGroup(taskGroupId: "AMfy-mopRaOCQlNW5IhOeQ") {
     pageInfo {
       hasNextPage
     }
