@@ -16,6 +16,9 @@ place a `.env` file in the root of this repo with the following environment vari
 inside of it:
 
 ```sh
+# The Taskcluster service instance to connect to:
+TASKCLUSTER_ROOT_URL="https://taskcluster.net"
+
 # Network port to bind the service to:
 PORT="3050"
 
