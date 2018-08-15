@@ -25,6 +25,7 @@
     "dataloader": "^1.4.0",
     "deepmerge": "^2.0.1",
     "dotenv": "^6.0.0",
+    "ejs": "^2.6.1",
     "express": "^4.16.3",
     "graphql": "^0.13.2",
     "graphql-depth-limit": "^1.1.0",
