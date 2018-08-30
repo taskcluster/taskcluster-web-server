@@ -3,6 +3,7 @@ import depthLimit from 'graphql-depth-limit';
 import { createComplexityLimitRule } from 'graphql-validation-complexity';
 import loader from 'taskcluster-lib-loader';
 import config from 'typed-env-config';
+import monitor from 'taskcluster-lib-monitor';
 import { createServer as httpServer } from 'http';
 import createApp from './servers/createApp';
 import createContext from './createContext';
@@ -34,12 +35,24 @@ const load = loader(
       },
     },
 
-    pulseEngine: {
+    monitor: {
       requires: ['cfg'],
       setup: ({ cfg }) =>
+        monitor({
+          rootUrl: cfg.taskcluster.rootUrl,
+          projectName: cfg.monitoring.project,
+          credentials: cfg.taskcluster.credentials,
+          mock: cfg.monitoring.mock,
+          enable: cfg.monitoring.enable,
+        }),
+    },
+
+    pulseEngine: {
+      requires: ['cfg', 'monitor'],
+      setup: ({ cfg, monitor }) =>
         new PulseEngine({
           connection: cfg.pulse,
-          rootUrl: cfg.taskcluster.rootUrl,
+          monitor,
         }),
     },
 
