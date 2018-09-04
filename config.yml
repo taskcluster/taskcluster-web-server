@@ -43,4 +43,5 @@ development:
     # taskcluster-web's dev server assumes port 3050
     port: 3050
   monitoring:
-    mock:             true
+    project: taskcluster-web-server
+    mock: true

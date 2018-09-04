@@ -1,18 +1,17 @@
 import Debug from 'debug';
 import { Client } from 'taskcluster-lib-pulse';
 import { slugid } from 'taskcluster-client';
-import flatten from 'arr-flatten';
 import { serialize } from 'async-decorators';
 import AsyncIterator from './AsyncIterator';
 
 const debug = Debug('PulseEngine');
 
 class Subscription {
-  constructor({ subscriptionId, onMessage, eventName, triggers }) {
+  constructor({ subscriptionId, onMessage, eventName, subscriptions }) {
     this.subscriptionId = subscriptionId;
     this.onMessage = onMessage;
     this.eventName = eventName;
-    this.triggers = triggers;
+    this.subscriptions = subscriptions;
 
     // state tracking for reconciliation
     this.listening = false;
@@ -48,7 +47,7 @@ class Subscription {
       this.listening = false;
     } else if (!listening && !unsubscribed) {
       debug(`Binding subscription ${subscriptionId}`);
-      const { eventName, onMessage, triggers } = this;
+      const { eventName, onMessage, subscriptions } = this;
 
       await channel.assertQueue(queueName, {
         exclusive: false,
@@ -57,12 +56,8 @@ class Subscription {
       });
 
       await Promise.all(
-        flatten(
-          Object.entries(triggers).map(([routingKeyPattern, exchanges]) =>
-            exchanges.map(exchange =>
-              channel.bindQueue(queueName, exchange, routingKeyPattern)
-            )
-          )
+        subscriptions.map(({ pattern, exchange }) =>
+          channel.bindQueue(queueName, exchange, pattern)
         )
       );
 
@@ -88,8 +83,8 @@ class Subscription {
 export default class PulseEngine {
   /* Operation:
    *
-   * Each subscription gets one queue (named after the subscriptionId), with
-   * a binding for each item in `triggers`. We then consume from that queue.
+   * Each subscription gets one queue (named after the subscriptionId), with a
+   * binding for each item in `subscriptions`. We then consume from that queue.
    * All queues are ephemeral, meaning they will go away when this service
    * restarts or the connection recycles. We automatically re-bind on
    * connection recycles, and rely on the caller to re-subscribe on service
@@ -121,7 +116,7 @@ export default class PulseEngine {
     this.reconcileSubscriptions();
   }
 
-  subscribe({ eventName, triggers }, onMessage) {
+  subscribe({ eventName, subscriptions }, onMessage) {
     const subscriptionId = slugid();
 
     this.subscriptions.set(
@@ -130,7 +125,7 @@ export default class PulseEngine {
         subscriptionId,
         onMessage,
         eventName,
-        triggers,
+        subscriptions,
       })
     );
     this.reconcileSubscriptions();
@@ -192,7 +187,7 @@ export default class PulseEngine {
       .forEach(sub => this.subscriptions.delete(sub.subscriptionId));
   }
 
-  asyncIterator(eventName, triggers) {
-    return new AsyncIterator(this, { eventName, triggers });
+  asyncIterator(eventName, subscriptions) {
+    return new AsyncIterator(this, { eventName, subscriptions });
   }
 }
