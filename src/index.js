@@ -57,8 +57,12 @@ const load = loader(
     },
 
     context: {
-      requires: ['pulseEngine'],
-      setup: ({ pulseEngine }) => createContext({ pulseEngine }),
+      requires: ['cfg', 'pulseEngine'],
+      setup: ({ cfg, pulseEngine }) =>
+        createContext({
+          pulseEngine,
+          rootUrl: cfg.taskcluster.rootUrl,
+        }),
     },
 
     app: {
