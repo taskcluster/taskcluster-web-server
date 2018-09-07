@@ -1,5 +1,6 @@
 import DataLoader from 'dataloader';
 import sift from 'sift';
+import fetch from 'node-fetch';
 import ConnectionLoader from '../ConnectionLoader';
 import Task from '../entities/Task';
 
@@ -29,10 +30,25 @@ export default ({ queue, index }) => {
       };
     }
   );
+  const taskActions = new DataLoader(queries =>
+    Promise.all(
+      queries.map(async ({ taskGroupId, filter }) => {
+        const url = await queue.buildUrl(
+          queue.getLatestArtifact,
+          taskGroupId,
+          'public/actions.json'
+        );
+        const actions = await (await fetch(url)).json();
+
+        return filter ? sift(filter, actions) : actions;
+      })
+    )
+  );
 
   return {
     task,
     indexedTask,
     taskGroup,
+    taskActions,
   };
 };
