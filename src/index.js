@@ -51,7 +51,8 @@ const load = loader(
       requires: ['cfg', 'monitor'],
       setup: ({ cfg, monitor }) =>
         new PulseEngine({
-          connection: cfg.pulse,
+          ...cfg.taskcluster,
+          ...cfg.pulse,
           monitor,
         }),
     },

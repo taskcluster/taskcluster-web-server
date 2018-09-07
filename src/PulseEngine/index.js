@@ -1,5 +1,5 @@
 import Debug from 'debug';
-import { Client } from 'taskcluster-lib-pulse';
+import { Client, claimedCredentials } from 'taskcluster-lib-pulse';
 import { slugid } from 'taskcluster-client';
 import { serialize } from 'async-decorators';
 import AsyncIterator from './AsyncIterator';
@@ -90,12 +90,36 @@ export default class PulseEngine {
    * connection recycles, and rely on the caller to re-subscribe on service
    * restart. */
 
-  constructor({ connection, monitor }) {
+  constructor({
+    monitor,
+    rootUrl,
+    credentials,
+    namespace,
+    contact,
+    expiresAfter,
+  }) {
     this.monitor = monitor;
-    // TODO: use tc creds instead
-    this.client = new Client({ monitor, ...connection });
-
     this.subscriptions = new Map();
+
+    if (!namespace && process.env.NODE_ENV !== 'production') {
+      // bail out of setup; this.connected will never be called, so no
+      // subscriptions will ever return messages
+      debug('NOTE: pulse.namespace is not set; no subscriptions will succeed');
+
+      return;
+    }
+
+    this.client = new Client({
+      monitor,
+      namespace,
+      credentials: claimedCredentials({
+        rootUrl,
+        credentials,
+        namespace,
+        contact,
+        expiresAfter,
+      }),
+    });
 
     this.reset();
     this.client.onConnected(conn => this.connected(conn));
