@@ -1,6 +1,6 @@
 import DataLoader from 'dataloader';
 import sift from 'sift';
-import fetch from 'node-fetch';
+import request from 'superagent';
 import ConnectionLoader from '../ConnectionLoader';
 import Task from '../entities/Task';
 
@@ -38,7 +38,10 @@ export default ({ queue, index }) => {
           taskGroupId,
           'public/actions.json'
         );
-        const actions = await (await fetch(url)).json();
+        const { body: actions } = await request
+          .get(url)
+          // retry on 5xx
+          .retry(2, (err, res) => res && res.status % 500 < 100);
 
         return filter ? sift(filter, actions) : actions;
       })
