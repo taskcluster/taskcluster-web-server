@@ -41,7 +41,7 @@ export default ({ queue, index }) => {
         const { body: actions } = await request
           .get(url)
           // retry on 5xx
-          .retry(2, (err, res) => res && res.status % 500 < 100);
+          .retry(2, (err, res) => res && res.status >= 500);
 
         return filter ? sift(filter, actions) : actions;
       })
