@@ -60,6 +60,13 @@ export default {
         filter,
       });
     },
+    taskGroup(parent, args, { loaders }) {
+      if (parent.taskGroup) {
+        return parent.taskGroup;
+      }
+
+      return loaders.task.load(parent.taskGroupId);
+    },
   },
   Query: {
     task(parent, { taskId }, { loaders }) {
