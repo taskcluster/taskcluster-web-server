@@ -92,7 +92,10 @@ export default {
   },
   Mutation: {
     async createTask(parent, { taskId, task }, { clients }) {
-      const { status } = await clients.queue.createTask(taskId, task);
+      const queue = task.options
+        ? clients.queue.use(task.options)
+        : clients.queue;
+      const { status } = await queue.createTask(taskId, task);
 
       return new TaskStatus(taskId, status);
     },

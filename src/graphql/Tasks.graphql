@@ -255,6 +255,10 @@ input TaskInput {
   # **Warning**, do not stuff large datasets in here.
   # Task definitions should not take-up multiple MBs.
   extra: JSON
+
+  # If you need to create a client similar to a existing client, but with some option updated,
+  # use this field.
+  options: JSON
 }
 
 type IndexedTask {
