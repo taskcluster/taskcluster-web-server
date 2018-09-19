@@ -10,7 +10,7 @@ export default ({ queue }, isAuthed, rootUrl) => {
   const urls = withRootUrl(rootUrl);
   const withUrl = ({ method, taskId, artifact, runId }) => {
     const hasRunId = !isNil(runId);
-    const isPublicLog = /^public\/logs\//.test(artifact.name);
+    const isPublicLog = /^public\//.test(artifact.name);
 
     // We don't want to build signed URLs for public artifacts,
     // even when credentials are present -- users often
