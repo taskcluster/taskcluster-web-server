@@ -1,28 +1,49 @@
 import DataLoader from 'dataloader';
 import sift from 'sift';
 import { isNil } from 'ramda';
+import { withRootUrl } from 'taskcluster-lib-urls';
 import ConnectionLoader from '../ConnectionLoader';
 import Artifact from '../entities/Artifact';
 import Artifacts from '../entities/Artifacts';
 
-export default ({ queue }, isAuthed) => {
+export default ({ queue }, isAuthed, rootUrl) => {
+  const urls = withRootUrl(rootUrl);
   const withUrl = ({ method, taskId, artifact, runId }) => {
     const hasRunId = !isNil(runId);
+    const isPublicLog = /^public\/logs\//.test(artifact.name);
 
-    if (isAuthed) {
+    // We don't want to build signed URLs for public artifacts,
+    // even when credentials are present -- users often
+    // copy/paste artifact URLs, and this would likely lead to
+    // people copy/pasting time-limited, signed URLs which would
+    // (a) have a long ?bewit=.. argument and
+    // (b) probably not work after that bewit expires.
+    // We could use queue.buildUrl, but this creates URLs where the artifact
+    // name has slashes encoded. For artifacts we specifically allow slashes
+    // in the name unencoded, as this make things like `wget ${URL}` create
+    // files with nice names.
+    if (isPublicLog) {
       return {
         ...artifact,
         url: hasRunId
-          ? queue.buildSignedUrl(method, taskId, runId, artifact.name)
-          : queue.buildSignedUrl(method, taskId, artifact.name),
+          ? urls.api(
+              'queue',
+              'v1',
+              `task/${taskId}/runs/${runId}/artifacts/${artifact.name}`
+            )
+          : urls.api(
+              'queue',
+              'v1',
+              `task/${taskId}/artifacts/${artifact.name}`
+            ),
       };
     }
 
     return {
       ...artifact,
       url: hasRunId
-        ? queue.buildUrl(method, taskId, runId, artifact.name)
-        : queue.buildUrl(method, taskId, artifact.name),
+        ? queue.buildSignedUrl(method, taskId, runId, artifact.name)
+        : queue.buildSignedUrl(method, taskId, artifact.name),
     };
   };
 
