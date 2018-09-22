@@ -35,6 +35,6 @@ module.exports = {
         config.plugins.delete('named-chunks');
       });
     },
-    '@neutrinojs/jest'
+    '@neutrinojs/mocha'
   ],
 };

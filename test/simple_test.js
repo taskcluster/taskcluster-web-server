@@ -1,5 +1,8 @@
+import assert from 'assert';
+
 describe('simple', () => {
   it('should be sane', () => {
-    expect(false).not.toBe(true);
+    assert.equal(true, !false);
   });
 });
+
