@@ -1,0 +1,9 @@
+type VncDisplay {
+  display: String!
+  width: Int!
+  height: Int!
+}
+
+extend type Query {
+  vncDisplays(url: String!): [VncDisplay]
+}
