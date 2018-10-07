@@ -4,18 +4,18 @@ module.exports = {
       hot: false,
       babel: {
         plugins: [
-          require.resolve('babel-plugin-transform-object-rest-spread'),
+          require.resolve('@babel/plugin-proposal-object-rest-spread'),
         ],
       },
       eslint: {
         rules: {
-          'no-nested-ternary': 'off',
+          'no-nested-ternary': 0,
         },
       },
     }],
     // replace start-server with restart-server
     (neutrino) => {
-      neutrino.config.when(neutrino.options.command === 'start', config => {
+      neutrino.config.when(process.env.NODE_ENV === 'development', config => {
         config.plugins.delete('start-server');
         neutrino.use(['neutrino-middleware-restart-server', {
           name: 'index.js',
@@ -31,7 +31,7 @@ module.exports = {
     },
     // work around https://bugzilla.mozilla.org/show_bug.cgi?id=1489273
     (neutrino) => {
-      neutrino.config.when(neutrino.options.command === 'build', config => {
+      neutrino.config.when(process.env.NODE_ENV === 'production', config => {
         config.plugins.delete('named-chunks');
       });
     },
