@@ -8,14 +8,13 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack --watch --mode development",
-    "lint": "eslint --cache --format codeframe --ext mjs,jsx,js src test",
+    "lint": "eslint --cache --format codeframe --ext mjs,js src test",
     "test": "mocha --require mocha.config.js --recursive"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.1.0",
     "@babel/plugin-proposal-decorators": "^7.1.2",
     "@neutrinojs/airbnb-base": "^9.0.0-beta.0",
-    "@neutrinojs/compile-loader": "^9.0.0-beta.0",
     "@neutrinojs/mocha": "^9.0.0-beta.0",
     "eslint": "^5.6.1",
     "eslint-config-prettier": "^3.1.0",

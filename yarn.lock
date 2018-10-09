@@ -815,7 +815,7 @@
     clean-webpack-plugin "^0.1.19"
     deepmerge "^1.5.2"
 
-"@neutrinojs/compile-loader@9.0.0-beta.0", "@neutrinojs/compile-loader@^9.0.0-beta.0":
+"@neutrinojs/compile-loader@9.0.0-beta.0":
   version "9.0.0-beta.0"
   resolved "https://registry.yarnpkg.com/@neutrinojs/compile-loader/-/compile-loader-9.0.0-beta.0.tgz#554fda7afd5c0a5fc1af77aade07457ebd33d409"
   integrity sha512-tEJHvKo8Hq9G8AM6M9rc+Q3yFTgaThugjxGTC5tdFfsPElftigA48zpLWMEgDP4Rj0BLj/9ZvhZ7ECFKSFc29Q==
