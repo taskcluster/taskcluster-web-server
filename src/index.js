@@ -37,7 +37,7 @@ const load = loader(
       setup: ({ cfg }) =>
         monitor({
           rootUrl: cfg.taskcluster.rootUrl,
-          projectName: cfg.monitoring.projectName,
+          projectName: cfg.monitoring.project,
           credentials: cfg.taskcluster.credentials,
           mock: cfg.monitoring.mock,
           enable: cfg.monitoring.enable,
@@ -58,6 +58,9 @@ const load = loader(
           );
           return new FakeClient();
         }
+
+        // eslint-disable-next-line no-console
+        console.log('🍁', JSON.stringify(cfg.pulse, null, 2));
 
         return new Client({
           monitor,
