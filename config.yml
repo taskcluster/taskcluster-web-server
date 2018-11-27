@@ -5,7 +5,7 @@ defaults:
     loginStrategies: !env:list LOGIN_STRATEGIES
 
   monitoring:
-    project: !env MONITORING_PROJECT
+    projectName: !env MONITORING_PROJECT
     enable: !env:bool MONITORING_ENABLE
     mock: false
 
@@ -44,7 +44,7 @@ development:
     # taskcluster-web's dev server assumes port 3050
     port: 3050
   monitoring:
-    project: taskcluster-web-server
+    projectName: taskcluster-web-server
     mock: true
 
 production:

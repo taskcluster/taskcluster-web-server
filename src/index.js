@@ -37,7 +37,7 @@ const load = loader(
       setup: ({ cfg }) =>
         monitor({
           rootUrl: cfg.taskcluster.rootUrl,
-          projectName: cfg.monitoring.project,
+          projectName: cfg.monitoring.projectName,
           credentials: cfg.taskcluster.credentials,
           mock: cfg.monitoring.mock,
           enable: cfg.monitoring.enable,
