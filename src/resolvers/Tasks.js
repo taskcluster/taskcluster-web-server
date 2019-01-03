@@ -68,6 +68,7 @@ export default {
       try {
         return await loaders.task.load(parent.taskGroupId);
       } catch (e) {
+        // Do not throw an error if a task has no decision task
         if (e.statusCode === 404) {
           return null;
         }
