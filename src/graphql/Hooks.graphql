@@ -61,6 +61,7 @@ type Hook {
   hookId: ID!
   metadata: HookMetadata!
   schedule: [String]!
+  bindings: JSON!
   task: HookTask!
   expires: DateTime!
   deadline: DateTime!
@@ -83,6 +84,7 @@ type DeleteHook {
 input HookInput {
   metadata: HookMetadataInput!
   schedule: [String]
+  bindings: JSON!
   expires: String
   deadline: String
   task: JSON!
